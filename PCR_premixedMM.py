@@ -1,4 +1,11 @@
-## Code to make a PCR reaction using a pre-mixed master-mix, distribute it between wells of a 96-well plate and add 10 different DNA samples.
+## Code to make a PCR reaction using a pre-mixed master-mix, distribute it between wells 
+## of a 96-well plate, add primers and add a given number of template samples.
+
+###INPUT### PCR variables
+no_replicates = 8
+no_templates = 4
+no_primers = 2
+total_PCR_volume = 50
 
 from opentrons import robot, containers, instruments
 
@@ -41,7 +48,7 @@ p20 = instruments.Pipette(
 
 #Define DNA volumes to be added
 total_volume = 25
-DNA_volumes = [2, 3, 4, 5, 6, 7, 8, 9, 10, 12]
+DNA_volumes = [2, 3, 4, 5, 6, 7, 8, 9, 10]
 num_pcr_samples = len(DNA_volumes)
 DNA_sources = dna_tubes.wells('A1', length=num_pcr_samples)
 
