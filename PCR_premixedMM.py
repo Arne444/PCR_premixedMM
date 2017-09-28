@@ -2,9 +2,8 @@
 ## of a 96-well plate, add primers and add a given number of template samples.
 
 ###INPUT### PCR variables
-num_replicates = 3
-num_templates = 2
-num_primers = 2
+num_replicates = 2
+num_templates = 4
 
 total_PCR_volume = 25
 master_mix_volume = 10
@@ -62,29 +61,38 @@ num_pcr_samples = len(DNA_volumes)
 template_sources = template_rack.wells('A1', length=num_pcr_samples)
 water_volume = total_PCR_volume - master_mix_volume - (2*primer_volume) - template_volume
 
+p20.pick_up_tip()
+
 #Add water
-for i in range(len(water_volumes)):
+for i in range(len(template_volumes)):
 	p20.transfer(
 		water_volume, water_source, output.wells(i*num_replicates, 
-		length=(num_replicates),skip=8), blow_out=True, touch_tip=True)
+		length=(num_replicates), skip=8), blow_out=True, touch_tip=True, new_tip='never')
+
+p20.drop_tip()
+p20.pick_up_tip()
 
 #distribute MasterMix
 for i in range(len(template_volumes)):
 	p20.transfer(
 		master_mix_volume, master_mix_source, output.wells(i*num_replicates, 
-		length=(num_replicates), skip=8), blow_out=True, touch_tip=True)
-		
+		length=(num_replicates), skip=8), blow_out=True, touch_tip=True, new_tip='never')
+
+p20.drop_tip()
+
 #distribute F primer
 for i in range(len(template_volumes)):
 	p20.transfer(
 		primer_volume, F_primer_source, output.wells(i*num_replicates, 
-		length=(num_replicates), skip=8), mix_after=(3, 3), blow_out=True, touch_tip=True, new_tip='always')
+		length=(num_replicates), skip=8), mix_after=(3, 3), blow_out=True, 
+		touch_tip=True, new_tip='always')
 
 #distribute R primer
 for i in range(len(template_volumes)):
 	p20.transfer(
 		primer_volume, R_primer_source, output.wells(i*num_replicates, 
-		length=(num_replicates), skip=8), mix_after=(3, 3), blow_out=True, touch_tip=True, new_tip='always')
+		length=(num_replicates), skip=8), mix_after=(3, 3), blow_out=True, 
+		touch_tip=True, new_tip='always')
 	
 #distribute template DNA
 for i in range(len(template_volumes)):
